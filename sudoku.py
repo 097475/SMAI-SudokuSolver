@@ -10,7 +10,8 @@ from pathlib import Path
 
 def read_puzzles(name):
     """
-    Reads in Sudoku puzzle specifications from a file. The '#' letter is used to separate individual puzzles.
+    Reads in Sudoku puzzle specifications from a file. The puzzles must be separated by one or more separator lines.
+    A separator line is any line starting with a alpha-letter (a-z, A-Z) or the '#' symbol.
     The format for specifying each puzzle is flexible as long as:
       - The digits 1-9 specify a filled cell and the letter '.' (or the digit 0) an empty cell.
         The digits (and '.') are process in a left-to-right and top-to-bottom order, that is, the first digit (or
@@ -23,20 +24,18 @@ def read_puzzles(name):
     puzzle = []
     with open(name) as f:
         for line in f:
+            if line and (line[0] == '#' or line[0].isalpha()):
+                if puzzle:
+                    assert len(puzzle) == 81
+                    puzzles.append(puzzle)
+                    puzzle = []
+                continue
             for c in line:
                 if c.isdigit():
                     puzzle.append(int(c))
                 elif c == '.':
                     puzzle.append(0)
-                elif c == '#':
-                    assert len(puzzle) == 81
-                    puzzles.append(puzzle)
-                    puzzle = []
-        assert len(puzzle) == 81
-        puzzles.append(puzzle)
-        puzzle = []
     return puzzles
-
 
 def write_puzzle_constraints(name, constraints):
     """
