@@ -51,11 +51,20 @@ def solve( st, cn ):
             A.pop()
         return False
 
-
     def BT(cn, i, A):
-
         # ********** YOU IMPLEMENT THIS **********
-
+        for value in cn.get_domain(i):
+            A.append(value)
+            consistent = cn.consistent_other(i, A)
+            if consistent:
+                if i == cn.num_variables() - 1:
+                    return True
+                else:
+                    consistent = BT(cn, i+1, A)
+            if not consistent:
+                A.pop()
+            else:
+                return consistent
         return False
 
 
