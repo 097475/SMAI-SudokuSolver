@@ -7,6 +7,7 @@
 import sys
 from pathlib import Path
 
+
 def read_puzzles(name):
     """
     Reads in Sudoku puzzle specifications from a file. The '#' letter is used to separate individual puzzles.
@@ -43,7 +44,7 @@ def write_puzzle_constraints(name, constraints):
     """
     with open(name, 'w') as f:
         for c in constraints:
-            f.write( '(' )
+            f.write('(')
             f.write(str(c[0]))
             f.write(',')
             f.write(str(c[1]))
@@ -76,8 +77,21 @@ def generate_domains(puzzles):
     """
 
     # ********** YOU IMPLEMENT THIS **********
+    domain = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
-    return []
+    all_puzzles_domains = []
+
+    for puzzle in puzzles:
+        puzzle_domains = []
+        for val in puzzle:
+            if val == 0:
+                puzzle_domains.append(domain)
+            else:
+                puzzle_domains.append({val})
+
+        all_puzzles_domains.append(puzzle_domains)
+
+    return all_puzzles_domains
 
 
 def generate_constraints():
@@ -91,7 +105,32 @@ def generate_constraints():
 
     # ********** YOU IMPLEMENT THIS **********
 
-    return []
+    constraints = []
+
+    for i in range(81):
+        # Other values in the same row
+        col_count = 8 - (i % 9)
+
+        for j in range(1, col_count + 1):
+            constraints.append((i, i + j))
+
+        # Other values in the same column
+        row_count = 8 - (i // 9)
+
+        for k in range(1, row_count + 1):
+            constraints.append((i, i + (9 * k)))
+
+        # Other values in square
+        row_within_square = ((i // 9) % 3)
+
+        for l in range(3):
+            col_diff = l - (i % 3)
+            if col_diff != 0:
+                for m in range(row_within_square + 1, 3):
+                    row_diff = m - row_within_square
+                    constraints.append((i, i + (row_diff * 9) + col_diff))
+
+    return constraints
 
 
 #
@@ -103,8 +142,8 @@ def generate_constraints():
 #
 
 name = 'sudoku'
-input_puzzle_file = name + '.txt' # 'soduko.txt' is the default expected input file name, but it can be overwritten
-if len(sys.argv) == 2:            # by specifying an alternative name as a command-line argument.
+input_puzzle_file = name + '.txt'  # 'soduko.txt' is the default expected input file name, but it can be overwritten
+if len(sys.argv) == 2:  # by specifying an alternative name as a command-line argument.
     input_puzzle_file = sys.argv[1]
     name = Path(input_puzzle_file).stem
     assert len(name) > 0
@@ -115,10 +154,11 @@ print('Processing puzzles from file', input_puzzle_file)
 puzzles = read_puzzles(input_puzzle_file)
 print('Read in', len(puzzles), 'Sudoku puzzle instances.')
 
-print( 'Generating and writing domains to file', output_domains_file)
+print('Generating and writing domains to file', output_domains_file)
 domains = generate_domains(puzzles)
-write_puzzles_domains( name + "_dom.txt", domains)
+write_puzzles_domains(name + "_dom.txt", domains)
 
-print( 'Generating and writing constraints to file', output_constraints_file)
-constraints = generate_constraints()                           # Generate and write out the constraints for Sudoku.
-write_puzzle_constraints(output_constraints_file, constraints) # Note, the constraints are independent of the instances.
+print('Generating and writing constraints to file', output_constraints_file)
+constraints = generate_constraints()  # Generate and write out the constraints for Sudoku.
+write_puzzle_constraints(output_constraints_file,
+                         constraints)  # Note, the constraints are independent of the instances.
