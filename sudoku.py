@@ -35,6 +35,9 @@ def read_puzzles(name):
                     puzzle.append(int(c))
                 elif c == '.':
                     puzzle.append(0)
+        if puzzle:
+            assert len(puzzle) == 81
+            puzzles.append(puzzle)
     return puzzles
 
 def write_puzzle_constraints(name, constraints):
