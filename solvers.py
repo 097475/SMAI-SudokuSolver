@@ -53,6 +53,8 @@ def solve( st, cn ):
 
     def BT(cn, i, A):
         # ********** YOU IMPLEMENT THIS **********
+        nonlocal num_nodes
+        num_nodes += 1
         for value in cn.get_domain(i):
             A.append(value)
             consistent = cn.consistent_other(i, A)
@@ -78,6 +80,8 @@ def solve( st, cn ):
     def CBJ(cn, i, A, CS):
 
         # ********** YOU IMPLEMENT THIS **********
+        nonlocal num_nodes
+        num_nodes += 1
         CS[i].clear()
         for value in cn.get_domain(i):
             if len(A) <= i:
