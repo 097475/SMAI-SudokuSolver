@@ -78,8 +78,36 @@ def solve( st, cn ):
     def CBJ(cn, i, A, CS):
 
         # ********** YOU IMPLEMENT THIS **********
+        CS[i].clear()
+        for value in cn.get_domain(i):
+            if len(A) <= i:
+                A.append(value)
+            else:
+                A[i] = value
 
-        return (False, 0)
+            consistent = True
+            for j in range(len(A)):
+                if j < i and not cn.consistent(i, j, A):
+                    CS[i].add(j)
+                    consistent = False
+                    break
+
+            if consistent:
+                if i == cn.num_variables() - 1:
+                    CS[i].add(i - 1)
+                    break
+                else:
+                    consistent, return_depth = CBJ(cn, i+1, A, CS)
+                    if return_depth < i:
+                        return consistent, return_depth
+                    if consistent:
+                        CS[i].add(i - 1)
+                        break
+
+        return_depth = max(CS[i])
+        CS[i].remove(return_depth)
+        CS[return_depth].update(CS[i])
+        return consistent, return_depth
 
 
     num_nodes = 0
