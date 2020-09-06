@@ -74,7 +74,7 @@ def make_constraint_network(constraints, domains, ac):
 
 # Set up and parsee command-line arguments
 ap = argparse.ArgumentParser()
-ap.add_argument( "-g", "--gtbt", choices=['on','off'],default='off', help="Run the GTBT solver.")
+ap.add_argument( "-g", "--gtbt", choices=['on','off'],default='on', help="Run the GTBT solver.")
 ap.add_argument( "-b", "--bt",   choices=['on','off'],default='on', help="Run the the BT solver.")
 ap.add_argument( "-j", "--bj",   choices=['on','off'],default='on', help="Run the BJ solver.")
 ap.add_argument( "-c", "--cbj",  choices=['on','off'],default='on', help="Run the CBJ solver.")
