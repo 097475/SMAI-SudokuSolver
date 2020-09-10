@@ -3,7 +3,7 @@ import pandas as pd
 
 charts_folder = 'charts/'
 
-name_of_run = "benchmark_lukas_arc_consistent"
+name_of_run = "benchmark_matteo_arc_consistent"
 
 output_file = "output_" + name_of_run + ".txt"
 
