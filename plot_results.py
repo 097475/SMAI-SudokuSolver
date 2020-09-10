@@ -3,11 +3,11 @@ import pandas as pd
 
 charts_folder = 'charts/'
 
-name_of_run = "easy_arc"
+name_of_run = "benchmark_lukas_arc_consistent"
 
 output_file = "output_" + name_of_run + ".txt"
 
-length_of_run = 50
+length_of_run = 20
 
 # This probably is not the best way to do read the file but it works
 df = pd.read_csv(output_file, delim_whitespace=True, header=None)
