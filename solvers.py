@@ -79,7 +79,7 @@ def solve(st, cn):
         num_nodes += 1
         if i >= cn.num_variables():
             return cn.consistent_all(A)
-        for v in cn.get_domain(i):
+        for v in cn.get_sorted_domain(i):
             A.append(v)
             solved = GTB(cn, i + 1, A)
             if solved:
@@ -91,7 +91,7 @@ def solve(st, cn):
         # ********** YOU IMPLEMENT THIS **********
         nonlocal num_nodes
         num_nodes += 1
-        for value in cn.get_domain(i):
+        for value in cn.get_sorted_domain(i):
             A.append(value)
             consistent = cn.consistent_other(i, A)
             if consistent:
@@ -113,7 +113,7 @@ def solve(st, cn):
         max_check_lvl = 0
         return_depth = 0
 
-        for value in cn.get_domain(i):
+        for value in cn.get_sorted_domain(i):
             if len(A) <= i:
                 A.append(value)
             else:
@@ -147,7 +147,7 @@ def solve(st, cn):
         nonlocal num_nodes
         num_nodes += 1
         CS[i].clear()
-        for value in cn.get_domain(i):
+        for value in sorted(cn.get_sorted_domain(i)):
             if len(A) <= i:
                 A.append(value)
             else:
